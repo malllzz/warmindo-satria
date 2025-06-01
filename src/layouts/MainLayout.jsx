@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const MainLayout = ({ children }) => {
   const location = useLocation();
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
     { path: "/", label: "Beranda" },
@@ -18,7 +19,6 @@ const MainLayout = ({ children }) => {
         <div className="container d-flex justify-content-between align-items-center">
           {/* Logo dan Judul */}
           <Link to="/" className="d-flex align-items-center text-decoration-none">
-            {/* Logo hover zoom */}
             <motion.img
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
@@ -27,7 +27,6 @@ const MainLayout = ({ children }) => {
               height="60"
               className="me-2"
             />
-            {/* Judul hover fade */}
             <motion.h1
               className="h5 m-0 text-white"
               whileHover={{ opacity: 0.7 }}
@@ -37,8 +36,16 @@ const MainLayout = ({ children }) => {
             </motion.h1>
           </Link>
 
-          {/* Navigasi */}
-          <nav className="d-flex">
+          {/* Hamburger Button - muncul hanya di layar kecil */}
+          <button
+            className="btn btn-outline-light d-md-none"
+            onClick={() => setMenuOpen(!isMenuOpen)}
+          >
+            ☰
+          </button>
+
+          {/* Navbar - Desktop */}
+          <nav className="d-none d-md-flex">
             {navItems.map((item, idx) => (
               <motion.div
                 key={idx}
@@ -56,6 +63,31 @@ const MainLayout = ({ children }) => {
             ))}
           </nav>
         </div>
+
+        {/* Navbar - Mobile */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-danger d-md-none px-3 pt-2 pb-3"
+            >
+              {navItems.map((item, idx) => (
+                <div key={idx} className="mb-2">
+                  <Link
+                    to={item.path}
+                    className="text-white text-decoration-none"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* KONTEN */}
