@@ -87,7 +87,23 @@ const TentangKami = () => {
         className="bg-white shadow rounded-4 border p-4 text-center"
       >
         <h2 className="fw-bold mb-3">Kontak Kami</h2>
-        <p className="text-muted mb-1">📍 Jalan Sidodadi, Purwokerto Kidul, Kec. Purwokerto Selatan, Kab. Banyumas</p>
+        <a
+  href="https://maps.app.goo.gl/zAsRCaLzyHL8MSU28"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-muted mb-1 text-decoration-none"
+  style={{ transition: 'color 0.2s, text-decoration 0.2s' }}
+  onMouseEnter={(e) => {
+    e.target.style.color = '#6c757d';
+    e.target.style.textDecoration = 'underline';
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.color = '';
+    e.target.style.textDecoration = 'none';
+  }}
+>
+  📍 Jalan Sidodadi, Purwokerto Kidul, Kec. Purwokerto Selatan, Kab. Banyumas
+</a>
         <p className="text-muted mb-3">
           📱{" "}
           <a
